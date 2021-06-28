@@ -1,6 +1,5 @@
 const fs = require("fs");
 const axios = require("axios");
-const path2 = process.argv[3];
 const path = process.argv[2];
 
 const cat = () => {
@@ -13,15 +12,21 @@ const cat = () => {
     });
 };
 
-const webCat = async () => {
+const webCat = async (URL) => {
     try {
-        let data = await axios.get(path2);
-        console.log(data);
+        let res = await axios.get(URL);
+        console.log(res.data);
     } catch (err) {
         console.log(err, "Something went wrong. Does this page exist?");
         process.exit(1);
     }
 };
 
-cat();
-webCat();
+if (path.slice(0, 4) === "http") {
+    webCat(path);
+} else {
+    cat(path);
+}
+
+// cat();
+// webCat();
